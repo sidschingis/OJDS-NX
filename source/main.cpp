@@ -49,11 +49,11 @@ extern "C" {
 
         rc = smInitialize();
         if (R_FAILED(rc))
-            fatalSimple(MAKERESULT(Module_Libnx, LibnxError_InitFail_SM));
+            fatalThrow(MAKERESULT(Module_Libnx, LibnxError_InitFail_SM));
 
         rc = hidInitialize();
         if (R_FAILED(rc))
-            fatalSimple(MAKERESULT(Module_Libnx, LibnxError_InitFail_HID));
+            fatalThrow(MAKERESULT(Module_Libnx, LibnxError_InitFail_HID));
 
         static const SocketInitConfig socketInitConfig = {
             .bsdsockets_version = 1,
@@ -71,7 +71,7 @@ extern "C" {
 
         rc = socketInitialize(&socketInitConfig);
         if (R_FAILED(rc))
-            fatalSimple(rc);
+            fatalThrow(rc);
     }
 
     void __appExit(void) {
@@ -102,7 +102,7 @@ int main(int argc, char * argv[]) {
                 close(client_sock);
                 break;
             }
-            
+
             hidScanInput();
             auto keys = hidKeysHeld(CONTROLLER_P1_AUTO);
 
